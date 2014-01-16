@@ -4,9 +4,12 @@
  */
 package net.rafaelaznar.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import net.rafaelaznar.data.MysqlData;
 import net.rafaelaznar.helper.Conexion;
 import net.rafaelaznar.helper.FilterBean;
@@ -16,7 +19,7 @@ import net.rafaelaznar.bean.EntregaBean;
  *
  * @author al037805
  */
-public class EntregaDao_Mysql {
+public class EntregaDao_Mysql implements EntregaDao{
     
     private final MysqlData oMysql;
     private final Conexion.Tipo_conexion enumTipoConexion;
@@ -78,35 +81,37 @@ public class EntregaDao_Mysql {
                 oMysql.conexion(enumTipoConexion);
                 if (!oMysql.existsOne("entrega", oEntregaBean.getId())) {
                     oEntregaBean.setId(0);
-                } else {
-                    oEntregaBean.setCodigo(oMysql.getOne("producto", "codigo", oProductoBean.getId()));
-                    oEntregaBean.setDescripcion(oMysql.getOne("producto", "descripcion", oProductoBean.getId()));
-                    oEntregaBean.setPrecio(Double.parseDouble(oMysql.getOne("producto", "precio", oProductoBean.getId())));
-                    oEntregaBean.setId_tipoProducto(Integer.parseInt(oMysql.getOne("producto", "id_tipoproducto", oProductoBean.getId())));
-                }
+                } else {      // REVISAR TODO ESTE BLOQUE DE CODIGO!!!!!!!
+                    oEntregaBean.setIdDocumento(Integer.parseInt(oMysql.getOne("entrega", "documento", oEntregaBean.getId())));
+                    oEntregaBean.getIdActividad(oMysql.getOne("entrega", "actividad", oEntregaBean.getId()));
+                    oEntregaBean.setNota(Integer.parseInt(oMysql.getOne("entrega", "nota", oEntregaBean.getId())));
+                    String string = oMysql.getOne("entrega", "fecha", oEntregaBean.getId());
+                    SimpleDateFormat date = new SimpleDateFormat("yyyy MMMM d", Locale.ENGLISH);
+                    oEntregaBean.setFecha(date.parse(string));
+                }  // HASTA AQUI!!!!
             } catch (Exception e) {
                 throw new Exception("ProductoDao.getProducto: Error: " + e.getMessage());
             } finally {
                 oMysql.desconexion();
             }
         } else {
-            oProductoBean.setId(0);
+            oEntregaBean.setId(0);
         }
-        return oProductoBean;
+        return oEntregaBean;
     }
 
     @Override
-    public ProductoBean set(ProductoBean oProductoBean) throws Exception {
+    public EntregaBean set(EntregaBean oEntregaBean) throws Exception {
         try {
             oMysql.conexion(enumTipoConexion);
             oMysql.initTrans();
-            if (oProductoBean.getId() == 0) {
-                oProductoBean.setId(oMysql.insertOne("producto"));
+            if (oEntregaBean.getId() == 0) {
+                oEntregaBean.setId(oMysql.insertOne("producto"));
             }
-            oMysql.updateOne(oProductoBean.getId(), "producto", "codigo", oProductoBean.getCodigo());
-            oMysql.updateOne(oProductoBean.getId(), "producto", "descripcion", oProductoBean.getDescripcion());
-            oMysql.updateOne(oProductoBean.getId(), "producto", "precio", oProductoBean.getPrecio().toString());            
-            oMysql.updateOne(oProductoBean.getId(), "producto", "id_tipoproducto", oProductoBean.getId_tipoProducto().toString());                       
+            oMysql.updateOne(oEntregaBean.getId(), "entrega", "iddocumento", oEntregaBean.getIdDocumento().toString());
+            oMysql.updateOne(oEntregaBean.getId(), "entrega", "idactividad", oEntregaBean.getIdActividad().toString());
+            oMysql.updateOne(oEntregaBean.getId(), "entrega", "fecha", oEntregaBean.getFecha().toString());            
+            oMysql.updateOne(oEntregaBean.getId(), "entrega", "nota", oEntregaBean.getNota().toString());                       
             oMysql.commitTrans();
         } catch (Exception e) {
             oMysql.rollbackTrans();
@@ -114,17 +119,17 @@ public class EntregaDao_Mysql {
         } finally {
             oMysql.desconexion();
         }
-        return oProductoBean;
+        return oEntregaBean;
     }
 
     @Override
-    public void remove(ProductoBean oProductoBean) throws Exception {
+    public void remove(EntregaBean oEntregaBean) throws Exception {
         try {
             oMysql.conexion(enumTipoConexion);
-            oMysql.removeOne(oProductoBean.getId(), "producto");
+            oMysql.removeOne(oEntregaBean.getId(), "entrega");
             oMysql.desconexion();
         } catch (Exception e) {
-            throw new Exception("ProductoDao.removeProducto: Error: " + e.getMessage());
+            throw new Exception("EntregaDao.removeProducto: Error: " + e.getMessage());
         } finally {
             oMysql.desconexion();
         }
@@ -135,11 +140,11 @@ public class EntregaDao_Mysql {
         ArrayList<String> alColumns=null;
         try {
             oMysql.conexion(enumTipoConexion);
-            alColumns=oMysql.getColumnsName("producto", Conexion.getDatabaseName());
+            alColumns=oMysql.getColumnsName("entrega", Conexion.getDatabaseName());
             oMysql.desconexion();
             
         } catch (Exception e) {
-            throw new Exception("ProductoDao.removeProducto: Error: " + e.getMessage());
+            throw new Exception("EntregaDao.removeProducto: Error: " + e.getMessage());
         } finally {
             oMysql.desconexion();
         }
