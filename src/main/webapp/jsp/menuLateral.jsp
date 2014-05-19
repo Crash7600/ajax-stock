@@ -12,6 +12,7 @@
         <li class="nav-header">Mantenimientos</li>            
         <li><a id="lnkCliente" href="#">Cliente</a></li>
         <li><a id="lnkProducto" href="#">Producto</a></li>
+        <li><a id="lnkTipoProducto" href="#">TipoProducto</a></li>
     </ul>
 </div>
 
