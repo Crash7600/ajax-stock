@@ -366,6 +366,8 @@ public class MysqlData implements GenericData {
                     strSQL += " " + oPar.getKey() + " " + oPar.getValue() + ",";
                 }
                 strSQL = strSQL.substring(0, strSQL.length() - 1);
+            } else {
+                strSQL += " ORDER BY id asc ";
             }
             strSQL += " LIMIT " + intOffset + " , " + intRegsPerPage;
             ResultSet oResultSet = oStatement.executeQuery(strSQL);

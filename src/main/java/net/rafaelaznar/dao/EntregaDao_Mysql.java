@@ -83,7 +83,7 @@ public class EntregaDao_Mysql implements EntregaDao{
                     oEntregaBean.setId(0);
                 } else {      // REVISAR TODO ESTE BLOQUE DE CODIGO!!!!!!!
                     oEntregaBean.setIdDocumento(Integer.parseInt(oMysql.getOne("entrega", "documento", oEntregaBean.getId())));
-                    oEntregaBean.getIdActividad(oMysql.getOne("entrega", "actividad", oEntregaBean.getId()));
+                   // oEntregaBean.getIdActividad(oMysql.getOne("entrega", "actividad", oEntregaBean.getId()));
                     oEntregaBean.setNota(Integer.parseInt(oMysql.getOne("entrega", "nota", oEntregaBean.getId())));
                     String string = oMysql.getOne("entrega", "fecha", oEntregaBean.getId());
                     SimpleDateFormat date = new SimpleDateFormat("yyyy MMMM d", Locale.ENGLISH);
