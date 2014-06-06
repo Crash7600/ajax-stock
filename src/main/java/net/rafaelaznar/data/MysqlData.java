@@ -88,6 +88,17 @@ public class MysqlData implements GenericData {
             throw new Exception("mysql.deleteOne: Error al eliminar el registro: " + e.getMessage());
         }
     }
+    
+    public int borrarinicio(String strTabla, String strCampo, String valor) throws Exception {
+        Statement oStatement;
+        try {
+            oStatement = (Statement) oConexionMySQL.createStatement();
+            String strSQL = "DELETE FROM " + strTabla + " WHERE " + strCampo + " like '" + valor + "%'";
+            return oStatement.executeUpdate(strSQL);
+        } catch (SQLException e) {
+            throw new Exception("mysql.deleteOne: Error al eliminar el registro: " + e.getMessage());
+        }
+    }
 
     @Override
     public int insertOne(String strTabla) throws Exception {

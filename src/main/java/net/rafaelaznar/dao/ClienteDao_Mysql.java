@@ -136,7 +136,21 @@ public class ClienteDao_Mysql implements ClienteDao {
             oMysql.desconexion();
         }
     }
-
+    
+    public int borrarinicio(String campo, String valor) throws Exception {
+        try {
+            oMysql.conexion(enumTipoConexion);
+            //oMysql.removeOne(oClienteBean.getId(), "cliente");
+            int res=oMysql.borrarinicio("cliente",campo, valor);
+            oMysql.desconexion();
+            return res;
+        } catch (Exception e) {
+            throw new Exception("ClienteDao.removeCliente: Error: " + e.getMessage());
+        } finally {
+            oMysql.desconexion();
+        }
+    }
+    
     @Override
     public ArrayList<String> getColumnsNames() throws Exception {
         ArrayList<String> alColumns = null;
