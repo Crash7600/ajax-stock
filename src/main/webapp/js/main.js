@@ -211,6 +211,12 @@ var vista = function(objeto, ContextPath) {
             });
             return form;
         },
+        getEmptyForm2: function() {
+            $.when(ajaxCallSync(urlDatos + '&op=form_borrarinicio&mode=1', 'GET', '')).done(function(data) {
+                form = data;
+            });
+            return form;
+        },
         getEmptyForm: function() {
             $.when(ajaxCallSync(urlDatos + '&op=form&mode=1', 'GET', '')).done(function(data) {
                 form = data;

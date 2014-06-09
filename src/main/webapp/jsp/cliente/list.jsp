@@ -25,7 +25,7 @@
             </div>
             <div class="span5">
                 <div class="text-right">
-                    <legend>Filtro</legend> 
+                    <legend>Filtro</legend>
                     <form class="navbar-form pull-right" action="Controller" method="post" id="empresaForm">
                         <fieldset>                                                                     
                             <span>
@@ -75,6 +75,7 @@
                     </form>                
                 </div> 
                 <button class="btn" id="crear">Crear <%=strNombreMantenimiento%></button>
+                <button class="btn" id="borrar">Borrar inicio <%=strNombreMantenimiento%></button>
             </div>
         </div>
         <br>

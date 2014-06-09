@@ -57,6 +57,28 @@ var control_cliente_list = function(path) {
             return false;
         });
     }
+    function loadModalForm2(view, place, id, action) {
+        cabecera = '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+        if (action == "edit") {
+            cabecera += '<h3 id="myModalLabel">Edición de ' + view.getObject().getName() + "</h3>";
+        } else {
+            cabecera += '<h3 id="myModalLabel">Alta de ' + view.getObject().getName() + "</h3>";
+        }
+        pie = '<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cerrar</button>';
+
+        loadForm(place, cabecera, view.getEmptyForm(), pie, false);
+        if (action == "edit") {
+            view.doFillForm(id);
+        } else {
+            $(prefijo_div + '#id').val('0').attr("disabled", true);
+            //$(prefijo_div + '#nombre').focus();
+        }
+        $(prefijo_div + '#submitForm').unbind('click');
+        $(prefijo_div + '#submitForm').click(function() {
+            enviarDatosUpdateForm(view, id);
+            return false;
+        });
+    }
 
     function removeConfirmationModalForm(view, place, id) {
         cabecera = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>" +

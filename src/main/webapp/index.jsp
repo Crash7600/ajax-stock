@@ -111,6 +111,7 @@
         <script src="js/main.js" charset="UTF-8"></script>
 
         <script src="js/control/cliente.js" charset="UTF-8"></script>
+        
         <script src="js/control/producto.js" charset="UTF-8"></script>
         <script src="js/control/tipoproducto.js" charset="UTF-8"></script>
         <script src="js/control/compra.js" charset="UTF-8"></script>
@@ -149,6 +150,17 @@
             });
             $(document).ready(function() {
                 $('#lnkCliente').unbind('click');
+                $('#lnkBorrarInicia').click(function() {
+                    var cliente = objeto('cliente', '<%=request.getContextPath()%>');
+                    var clienteView = vista(cliente, '<%=request.getContextPath()%>');
+
+                    $('#indexContenidoJsp').empty();
+                    $('#indexContenido').empty().append(clienteView.getEmptyForm2());
+
+                    var clienteControl = control_cliente_list('<%=request.getContextPath()%>');
+                    clienteControl.inicia(clienteView, 1, null, null, 10, null, null, null, null);
+                    return false;
+                });
                 $('#lnkCliente').click(function() {
                     var cliente = objeto('cliente', '<%=request.getContextPath()%>');
                     var clienteView = vista(cliente, '<%=request.getContextPath()%>');
